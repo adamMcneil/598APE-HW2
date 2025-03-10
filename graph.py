@@ -3,28 +3,31 @@ import numpy as np
 
 base_line_diabetes = [5.77,]
 para_diabetes = [1.12, 1.13, 1.15]
-diabetes_data = [base_line_diabetes, para_diabetes]
+stack = [0.62, 0.59]
+diabetes_data = [base_line_diabetes, para_diabetes, stack]
 
 base_line_cancer = [65.09, ]
 para_cancer = [21.87, 22.18, ]
-cancer_data = [base_line_cancer, para_cancer]
+stack = [17.59, 17.85]
+cancer_data = [base_line_cancer, para_cancer, stack]
 
 base_line_housing = [180.04,]
 para_housing = [43.20, ]
-housing_data = [base_line_housing, para_housing]
+stack = [17.59, 25.40, 22.98]
+housing_data = [base_line_housing, para_housing, stack]
 
 # Calculate the means and standard deviations
 diabetes_means = [np.min(data) for data in diabetes_data]
 diabetes_std_devs = [np.std(data) for data in diabetes_data]
 
-cancer_means = [np.mean(data) for data in cancer_data]
+cancer_means = [np.min(data) for data in cancer_data]
 cancer_std_devs = [np.std(data) for data in cancer_data]
 
-housing_means = [np.mean(data) for data in housing_data]
+housing_means = [np.min(data) for data in housing_data]
 housing_std_devs = [np.std(data) for data in housing_data]
 
 # Define categorical x-axis labels
-x_labels = ["baseline", "parallism"]
+x_labels = ["baseline", "parallism", "stack"]
 x = np.arange(len(x_labels))  # Numeric positions for categorical labels
 
 plt.errorbar(x, diabetes_means, yerr=diabetes_std_devs, capsize=5, linestyle='-', marker='^', color='red', label='Diabetes')

@@ -42,6 +42,10 @@ clean:
 # Clean and rebuild
 rebuild: clean all
 
+test:
+	make -j
+	./genetic_benchmark diabetes
+
 time:
 	make -j
 	sudo perf record -g ./genetic_benchmark housing

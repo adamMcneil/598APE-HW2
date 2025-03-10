@@ -4,14 +4,17 @@
 #include "philox_engine.h"
 #include "reg_stack.h"
 #include <algorithm>
+#include <cassert>
 #include <cstdint>
 #include <fitness.h>
+#include <iostream>
 #include <node.h>
 #include <numeric>
 #include <omp.h>
 #include <program.h>
 #include <random>
 #include <stack>
+
 namespace genetic {
 
 /**
@@ -21,6 +24,7 @@ namespace genetic {
 template <int MaxSize = MAX_STACK_SIZE>
 void execute_kernel(const program_t d_progs, const float *data, float *y_pred,
                     const uint64_t n_rows, const uint64_t n_progs) {
+  // added parallel for loop tags
 #pragma omp parallel for
   for (uint64_t pid = 0; pid < n_progs; ++pid) {
 #pragma omp parallel for
@@ -35,21 +39,24 @@ void execute_kernel(const program_t d_progs, const float *data, float *y_pred,
       float res = 0.0f;
       float in[2] = {0.0f, 0.0f};
 
+      // Modified what is pushed to the stack
       while (end >= 0) {
         if (detail::is_nonterminal(curr_node->t)) {
           int ar = detail::arity(curr_node->t);
-          in[0] = eval_stack.pop(); // Min arity of function is 1
-          if (ar > 1)
+          in[0] = res;
+          if (ar > 1) {
             in[1] = eval_stack.pop();
+          }
+        } else {
+          eval_stack.push(res);
         }
         res = detail::evaluate_node(*curr_node, data, n_rows, row_id, in);
-        eval_stack.push(res);
         curr_node--;
         end--;
       }
 
       // Outputs stored in col-major format
-      y_pred[pid * n_rows + row_id] = eval_stack.pop();
+      y_pred[pid * n_rows + row_id] = res;
     }
   }
 }
