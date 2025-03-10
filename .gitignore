@@ -34,3 +34,8 @@
 compile_commands.json
 .cache/
 genetic_benchmark
+
+out.perf-folded
+perf.data
+perf.data.old
+perf.svg

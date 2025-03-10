@@ -8,10 +8,10 @@
 #include <fitness.h>
 #include <node.h>
 #include <numeric>
+#include <omp.h>
 #include <program.h>
 #include <random>
 #include <stack>
-
 namespace genetic {
 
 /**
@@ -21,7 +21,9 @@ namespace genetic {
 template <int MaxSize = MAX_STACK_SIZE>
 void execute_kernel(const program_t d_progs, const float *data, float *y_pred,
                     const uint64_t n_rows, const uint64_t n_progs) {
+#pragma omp parallel for
   for (uint64_t pid = 0; pid < n_progs; ++pid) {
+#pragma omp parallel for
     for (uint64_t row_id = 0; row_id < n_rows; ++row_id) {
 
       stack<float, MaxSize> eval_stack;

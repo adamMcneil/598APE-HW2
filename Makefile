@@ -1,5 +1,5 @@
 CXX := g++
-CXXFLAGS := -std=c++17 -Wall -Wextra -I include -I. 
+CXXFLAGS := -std=c++17 -Wall -Wextra -I include -I. -fopenmp 
 
 # Directories
 SRC_DIR := src
@@ -41,5 +41,14 @@ clean:
 
 # Clean and rebuild
 rebuild: clean all
+
+time:
+	make -j
+	sudo perf record -g ./genetic_benchmark housing
+	
+flame:
+	sudo perf script | ./FlameGraph-master/stackcollapse-perf.pl > out.perf-folded
+	sudo ./FlameGraph-master/flamegraph.pl out.perf-folded > perf.svg
+	sudo firefox perf.svgsudo perf script | ./FlameGraph-master/stackcollapse-perf.pl > out.perf-folded
 
 .PHONY: all clean rebuild directories 
