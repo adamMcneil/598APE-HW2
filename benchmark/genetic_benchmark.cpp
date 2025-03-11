@@ -141,8 +141,8 @@ float accuracy(const std::vector<float> &y_true,
 
 using namespace genetic;
 
+// This function does not sort properly because of -NaN in the list
 void insertionSortPrograms(genetic::program *programs, int size) {
-  std::cout << size << "\n";
   for (int i = 1; i < size; i++) {
     genetic::program key(programs[i]);
     int j = i - 1;
@@ -152,6 +152,9 @@ void insertionSortPrograms(genetic::program *programs, int size) {
       j--;
     }
     programs[j + 1] = key;
+  }
+  for (int i = 0; i < size; i++) {
+    std::cout << programs[i].raw_fitness_ << "\n";
   }
 }
 
@@ -167,7 +170,7 @@ void getBestPrograms(genetic::program *programs, int size) {
       secondIndex = bestIndex;
       best = score;
       bestIndex = i;
-    } else {
+    } else if (score < second) {
       second = score;
       secondIndex = i;
     }
@@ -253,7 +256,6 @@ void run_symbolic_regression(const std::string &dataset_file) {
             << " population size and " << params.generations << " generations"
             << std::endl;
 
-
   // Create history vector to store programs
   genetic::program_t final_programs;
   final_programs = new genetic::program[params.population_size]();
@@ -272,7 +274,7 @@ void run_symbolic_regression(const std::string &dataset_file) {
   // }
 
   // Predict on top 2 candidates
-  insertionSortPrograms(final_programs, params.population_size);
+  getBestPrograms(final_programs, params.population_size);
 
   std::vector<float> y_pred1(X_test.size());
   genetic::symRegPredict(X_test_flat.data(), X_test.size(), &final_programs[0],
