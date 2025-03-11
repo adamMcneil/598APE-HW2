@@ -42,9 +42,13 @@ clean:
 # Clean and rebuild
 rebuild: clean all
 
-test:
+diabetes:
 	make -j
 	./genetic_benchmark diabetes
+
+test:
+	make -j
+	./genetic_benchmark cancer
 
 time:
 	make -j

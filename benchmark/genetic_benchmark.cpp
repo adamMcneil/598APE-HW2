@@ -142,6 +142,7 @@ float accuracy(const std::vector<float> &y_true,
 using namespace genetic;
 
 void insertionSortPrograms(genetic::program *programs, int size) {
+  std::cout << size << "\n";
   for (int i = 1; i < size; i++) {
     genetic::program key(programs[i]);
     int j = i - 1;
@@ -152,6 +153,32 @@ void insertionSortPrograms(genetic::program *programs, int size) {
     }
     programs[j + 1] = key;
   }
+}
+
+void getBestPrograms(genetic::program *programs, int size) {
+  float best = INFINITY;
+  int bestIndex = -1;
+  float second = INFINITY;
+  int secondIndex = -1;
+  for (int i = 0; i < size; i++) {
+    float score = programs[i].raw_fitness_;
+    if (score < best) {
+      second = best;
+      secondIndex = bestIndex;
+      best = score;
+      bestIndex = i;
+    } else {
+      second = score;
+      secondIndex = i;
+    }
+  }
+  genetic::program temp;
+  temp = programs[0];
+  programs[0] = programs[bestIndex];
+  programs[bestIndex] = temp;
+  temp = programs[1];
+  programs[1] = programs[secondIndex];
+  programs[secondIndex] = temp;
 }
 
 void run_symbolic_regression(const std::string &dataset_file) {
@@ -386,7 +413,7 @@ void run_symbolic_classification(const std::string &dataset_file) {
   // }
 
   // Predict classes for best 2 programs acc to training
-  insertionSortPrograms(final_programs, params.population_size);
+  getBestPrograms(final_programs, params.population_size);
   std::vector<float> y_pred1(X_test.size());
   genetic::symClfPredict(X_test_flat.data(), X_test.size(), params,
                          &final_programs[0], y_pred1.data());
