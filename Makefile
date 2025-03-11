@@ -48,7 +48,7 @@ test:
 
 time:
 	make -j
-	sudo perf record -g ./genetic_benchmark diabetes
+	sudo perf record -g ./genetic_benchmark cancer
 	
 flame:
 	sudo perf script | ./FlameGraph-master/stackcollapse-perf.pl > out.perf-folded

@@ -41,14 +41,14 @@ void execute_kernel(const program_t d_progs, const float *data, float *y_pred,
 
       // Modified what is pushed to the stack
       while (end >= 0) {
-        if (detail::is_nonterminal(curr_node->t)) {
+        if (detail::is_terminal(curr_node->t)) {
+          eval_stack.push(res);
+        } else {
           int ar = detail::arity(curr_node->t);
           in[0] = res;
           if (ar > 1) {
             in[1] = eval_stack.pop();
           }
-        } else {
-          eval_stack.push(res);
         }
         res = detail::evaluate_node(*curr_node, data, n_rows, row_id, in);
         curr_node--;
