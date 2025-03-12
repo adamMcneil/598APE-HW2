@@ -1,5 +1,5 @@
 CXX := g++
-CXXFLAGS := -std=c++17 -Wall -Wextra -I include -I. -fopenmp 
+CXXFLAGS := -std=c++17 -Wall -Wextra -I include -I. -O3 -fopenmp 
 
 # Directories
 SRC_DIR := src
@@ -46,13 +46,17 @@ diabetes:
 	make -j
 	./genetic_benchmark diabetes
 
-test:
+cancer:
 	make -j
 	./genetic_benchmark cancer
 
+housing:
+	make -j
+	./genetic_benchmark housing
+
 time:
 	make -j
-	sudo perf record -g ./genetic_benchmark cancer
+	sudo perf record -g ./genetic_benchmark diabetes
 	
 flame:
 	sudo perf script | ./FlameGraph-master/stackcollapse-perf.pl > out.perf-folded
