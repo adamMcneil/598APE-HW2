@@ -33,7 +33,7 @@ housing_means = [np.min(data) for data in housing_data]
 housing_std_devs = [np.std(data) for data in housing_data]
 
 # Define categorical x-axis labels
-x_labels = ["baseline", "parallism", "stack", "sort", "flag"]
+x_labels = ["baseline", "parallelism", "stack", "sort", "flag"]
 x = np.arange(len(x_labels))  # Numeric positions for categorical labels
 
 plt.errorbar(x, diabetes_means, yerr=diabetes_std_devs, capsize=5, linestyle='-', marker='^', color='red', label='Diabetes')
