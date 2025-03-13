@@ -1,5 +1,17 @@
 # 598APE-HW2
+## Important Commit Hashes for Verifying
+The easiest way to verify results would be to checkout these commits, and run the following.
+```bash
+make -j
+./genetic_benchmark diabetes
+```
+- Baseline: 9aa648664618c57fecbeb789fbb46dc2915458c2
+- Parallelism: 12c52905eea07ae18aa75a9406712f8573cd3770
+- Stack: 46471fcb5afd030dd00cb38536bff59c541ecf88
+- Sort: 9bd11e5f4bbf30f246c7b1447b8b870dca618f08
+- Flag: 656d87170b479fcc0d4decaebb5b1e607a64bd1d
 
+## Original README
 This repository contains code for homework 2 of 598APE.
 
 In particular, this repository is an implementation of Symbolic Regression and Classification.
