@@ -2,6 +2,7 @@
 ## Important Commit Hashes for Verifying
 The easiest way to verify results would be to checkout these commits, and run the following.
 ```bash
+make clean
 make -j
 ./genetic_benchmark diabetes
 ```
